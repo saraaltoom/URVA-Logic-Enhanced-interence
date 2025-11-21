@@ -1,3 +1,6 @@
+"""
+Refraction layer to derive logical and contextual views of the input.
+"""
 from typing import Dict, Any
 
 

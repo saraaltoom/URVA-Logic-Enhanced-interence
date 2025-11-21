@@ -1,5 +1,8 @@
+"""
+State generator for backward compatibility with legacy refraction/refiner paths.
+"""
 from dataclasses import dataclass
-from typing import Dict, Any
+from typing import Dict
 import hashlib
 import random
 
@@ -22,7 +25,6 @@ class StateGenerator:
     def generate(self, refraction: Dict[str, str]) -> StateBundle:
         base = refraction.get("Q_raw", "")
         rng = self._rng(base)
-        # deterministic but varied phrasing
         templates = [
             "Direct: {t}",
             "Answer: {t}",
