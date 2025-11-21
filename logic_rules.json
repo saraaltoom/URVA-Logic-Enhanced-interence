@@ -1,0 +1,31 @@
+{
+  "consistency_rules": [
+    "If statements contradict, mark hallucination.",
+    "If model claims A=true and A=false in same context, contradiction."
+  ],
+  "temporal_rules": [
+    "Dates cannot be in the future.",
+    "Events cannot happen before their causes.",
+    "Historical figures cannot interact outside their lifetimes."
+  ],
+  "causal_rules": [
+    "Causes must precede effects.",
+    "Effect cannot happen without cause.",
+    "Physical impossibilities must be flagged."
+  ],
+  "numeric_bounds": [
+    "Negative values invalid for distances.",
+    "Probabilities must be between 0 and 1.",
+    "Population numbers cannot exceed realistic bounds."
+  ],
+  "existence_rules": [
+    "Nonexistent entities must be flagged.",
+    "Fictional elements cannot appear in factual contexts.",
+    "Places must exist in the real world unless hypothetical."
+  ],
+  "contradiction_rules": [
+    "Conflict across states yields hallucination.",
+    "Inconsistent reasoning steps indicate failure.",
+    "Divergence between S1/S2/S3 > 25% = hallucination."
+  ]
+}
