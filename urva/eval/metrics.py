@@ -22,7 +22,18 @@ def compute_metrics(outputs: List[Dict[str, Any]]) -> Dict[str, float]:
         conflict = out.get("fusion", {}).get("conflict_score", 0.0)
         spectral = out.get("conflict_graph", {}).get("spectral", 0.0)
         viol = hall.get("violations", [])
-        certainty = out.get("fusion", {}).get("certainty", 0.0)
+ def compute_certainty(
+          logic_penalty: float,
+        faithfulness: float,
+            grounding: float,
+            alpha: float = 0.5,
+            beta: float = 0.5,
+):
+    return max(
+        0.0,
+        (1.0 - logic_penalty)
+        * (alpha * faithfulness + beta * grounding)
+    )
         if not has_hall and conflict < 0.25:
             accurate += 1
         if has_hall:
