@@ -96,8 +96,9 @@ class InferencePipeline:
             )
 
         # F = avg grounded score, G = conflict-based grounding, L = normalized violations
-        _F = grounding.get("avg_score", 0.0)
-        _G = max(0.0, 1.0 - graph["conflict_score"])
+         _F = self.grounder.compute_grounding(states.get("S1", ""), text) \
+             if hasattr(self.grounder, "compute_grounding") else grounding.get("avg_score", 0.0)
+        _G = grounding.get("avg_score", 0.0)
         _L = min(len(logic_violations) / 5, 1.0)
         certainty = self._certainty(_F, _G, _L)
 
