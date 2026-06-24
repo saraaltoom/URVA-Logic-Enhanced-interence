@@ -195,13 +195,12 @@ class InferencePipeline:
         return violations
 
     # ----------------- Certainty -----------------
-    def _certainty(
-        self, grounding: Dict[str, Any], reasoning_score: float, conflict_score: float, logic_violation_count: int
-    ) -> float:
-        g_avg = grounding.get("avg_score", grounding.get("grounded", {}).get("avg_score", 0.5))
-        penalty = min(1.0, 0.1 * logic_violation_count)
-        certainty = 0.35 * g_avg + 0.35 * reasoning_score + 0.2 * (1 - conflict_score) + 0.1 * (1 - penalty)
-        return float(max(0.0, min(1.0, certainty)))
+    def _certainty(self, faithfulness: float, grounding: float, logic_penalty: float,
+               alpha: float = 0.5, beta: float = 0.5) -> float:
+   
+    evidence = alpha * faithfulness + beta * grounding
+    certainty = (1 - logic_penalty) * evidence
+    return float(max(0.0, min(1.0, certainty)))
 
     # ----------------- Natural language output -----------------
     def _clean(self, txt: str) -> str:
