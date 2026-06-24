@@ -95,12 +95,11 @@ class InferencePipeline:
                 conflict_score=graph["conflict_score"],
             )
 
-        certainty = self._certainty(
-            grounding,
-            reasoning["final_score"],
-            graph["conflict_score"],
-            len(logic_violations),
-        )
+        # F = avg grounded score, G = conflict-based grounding, L = normalized violations
+        _F = grounding.get("avg_score", 0.0)
+        _G = max(0.0, 1.0 - graph["conflict_score"])
+        _L = min(len(logic_violations) / 5, 1.0)
+        certainty = self._certainty(_F, _G, _L)
 
         fusion = {
             "conflict_score": graph["conflict_score"],
@@ -198,7 +197,7 @@ class InferencePipeline:
     def _certainty(self, faithfulness: float, grounding: float, logic_penalty: float,
                    alpha: float = 0.5, beta: float = 0.5) -> float:
         evidence = alpha * faithfulness + beta * grounding
-        certainty = (1 - logic_penalty) * evidence
+        certainty = (1.0 - logic_penalty) * evidence
         return float(max(0.0, min(1.0, certainty)))
    
     def _clean(self, txt: str) -> str:
