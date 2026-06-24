@@ -61,6 +61,7 @@ def compute_metrics(outputs: List[Dict[str, Any]]) -> Dict[str, float]:
         "spectral_conflict": spectral_sum / total,
         "self_consistency_variance": consistency_var,
         "calibration_error": calibration_error,
+        "avg_certainty": float(np.mean(certainties))
     }
 
 
